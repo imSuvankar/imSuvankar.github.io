@@ -12,3 +12,18 @@ body {
 .container {
     background-color: white
 }
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+    background: linear-gradient(to top, #bcbcbc, transparent);
+    padding-bottom: 1%;
+    position: fixed;
+    bottom: 0;
+}
+
+footer a {
+    color: black;
+    text-decoration: underline;
+}

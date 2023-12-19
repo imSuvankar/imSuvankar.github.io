@@ -1,5 +1,6 @@
 let soundPlaying = false;
 
+
 function checkThala() {
     const snippet = document.getElementById('snippet').value.trim();
     let sum = 0;
@@ -15,7 +16,6 @@ function checkThala() {
         return false; 
     }
 }
-
 
 
 function showSuccessMessage() {
@@ -65,11 +65,9 @@ function confettiAnimation() {
 }
 
 
-
 function showFailureMessage() {
     const successSound = new Audio("./thala-for-a-reason/moye_moye.mp3");
     successSound.play();
-    
     
     Swal.fire({
         title: "Wrong!",
