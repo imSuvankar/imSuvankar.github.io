@@ -3,8 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <title>Thala-For-A-Reason</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 </head>
-<body>
-    <h1>Hello User</h1>
+
+
+<body style="background-color: #ebebeb">
+    <div class="container p-5 rounded border shadow-lg" style="background-color: white;">
+        <h1 class="text-center">Verify Thala Magic</h1>
+        <form onsubmit="return checkThala();" class="mt-5">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="snippet" name="snippet" placeholder="Enter message..." required>
+                    </div>
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-md btn-primary btn-block">Check</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    
+    <!-- need to add a footer later -->
+    
+
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.0.1"></script>
+
+    
+    
+    
+    <script>
+        let soundPlaying = false;
+
+        function checkThala() {
+            const snippet = document.getElementById('snippet').value.trim();
+            let sum = 0;
+
+            if (/^\d+$/.test(snippet)) sum = snippet.split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
+            else sum = snippet.length;
+
+            if (sum === 7) {
+                showSuccessMessage();
+                return false; 
+            } else {
+                showFailureMessage();
+                return false; 
+            }
+        }
+
+
+
+        function showSuccessMessage() {
+            const successSound = new Audio("./thala-for-a-reason/msd.mp3");
+            successSound.play();
+            
+            const snippet = document.getElementById('snippet').value.trim();
+
+            Swal.fire({
+                title: `${snippet} - Thala For A Reason`,
+                html: '<video autoplay muted loop width="400" height="250" style="margin-bottom: 20px;"><source src="./thala-for-a-reason/msd_correct.mp4" type="video/mp4"></video><p style="margin-bottom: 10px;">True Thala Fan 🗿</p>',
+                showCloseButton: true,
+                focusConfirm: true,
+                confirmButtonText: 'Great!',
+                confirmButtonAriaLabel: 'OK',
+
+                didOpen: () => {
+                    successSound.play();
+                    confettiAnimation();
+                },
+                willClose: () => {
+                    successSound.pause();
+                }
+            });
+        }
+
+
+        function confettiAnimation() {
+            const duration = 1000;
+            const animationEnd = Date.now() + duration;
+            
+            function createConfetti() {
+                const confettiSettings = { particleCount: 23, spread: 300 };
+                window.confetti({
+                    ...confettiSettings,
+                    origin: { x: Math.random(), y: Math.random() }
+                });
+            }
+
+            function frame() {
+                const timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) return;
+                createConfetti();
+                requestAnimationFrame(frame);
+            }
+
+            frame();
+        }
+
+ 
+
+        function showFailureMessage() {
+            Swal.fire({
+                title: "Wrong!",
+                text: "One six didn't win us the World Cup",
+                imageUrl: "./thala-for-a-reason/msd_wrong.jpg",
+                imageWidth: 400,
+                imageHeight: 275,
+                imageAlt: "Not Thala"
+            });
+        }
+    </script>
 </body>
 </html>
